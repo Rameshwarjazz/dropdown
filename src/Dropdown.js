@@ -1,42 +1,35 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+import "./Dropdown.css"
 
-function Dropdown({items, onItemClick}){
-    const [isOpen ,setIsOpen]= useState(false);
+const Dropdown = ({ items }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-    const toggleDropdown =()=>{
-        setIsOpen(!isOpen)
-        console.log(setIsOpen)
-    }
-    const handleItemClick=(item)=>{
-        onItemClick(item)
-        setIsOpen(false)
-    }
-    console.log(handleItemClick)
-    
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
+  const handleItemClick = (item) => {
+    setSelectedItem(item); 
+    setIsOpen(false);
+    console.log(`Selected: ${item}`);
+  };
 
-
-    return(
-        <div className="dropdown">
-            
-            <button className="dropdown-button" onClick={toggleDropdown }>
-                Select
-            </button>
-            <ul className="dropdown-list">
+  return (
+    <div className="dropdown" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
+      <button>Open Dropdown</button>
+      {isOpen && (
+        <ul className="dropdown-list">
           {items.map((item, index) => (
-            <li
-              key={index}
-              onClick={() => handleItemClick(item)}
-              className="dropdown-item"
-            >
+            <li key={index} className="dropdown-item" onClick={() => handleItemClick(item)}>
               {item}
             </li>
           ))}
         </ul>
-        </div>
-    )
-}
-
-
+      )}
+      {selectedItem && <p className="selected-item">Selected Skill: {selectedItem}</p>}
+    </div>
+  );
+};
 
 export default Dropdown;
